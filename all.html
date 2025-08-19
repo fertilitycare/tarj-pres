@@ -1,1 +1,222 @@
 
+<!DOCTYPE html> <!-- Declara que el documento es HTML5 -->
+<html lang="es"> <!-- Idioma del documento en español -->
+<head> <!-- Inicio del encabezado de la página -->
+  <meta charset="utf-8"> <!-- Codificación UTF-8 para admitir caracteres especiales -->
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Escala adecuada en móviles -->
+  <title>Tarjetas - Página principal</title> <!-- Título que verás en la pestaña del navegador -->
+
+  <style> /* Estilos embebidos para no depender de archivos externos */
+    :root{ /* Variables CSS para colores y tamaños reutilizables */
+      --bg:#060118;       /* Color de fondo global (azul oscuro) */
+      --panel:#111827;    /* Color de panel/cards */
+      --text:#e5e7eb;     /* Color de texto claro */
+      --muted:#94a3b8;    /* Color de texto secundario */
+      --accent:#d88084;   /* Color de acento para hover/bordes */
+      --border:#334155;   /* Color de bordes */
+      --radius:16px;      /* Radio de borde general */
+      --btn-radius:14px;  /* Radio de botones */
+      --gap:14px;         /* Separación entre elementos */
+    } /* Fin variables */
+
+    *{ box-sizing:border-box; } /* Asegura que padding y borde se computen dentro del ancho/alto */
+
+    body{ /* Estilos aplicados al body */
+      margin:0; /* Quita márgenes por defecto del navegador */
+      font-family:system-ui,Arial,sans-serif; /* Fuente legible por defecto del sistema */
+      background:var(--bg); /* Aplica color de fondo global */
+      color:var(--text); /* Color de texto por defecto */
+      display:grid; /* Usa grid para centrar el contenedor */
+      place-items:start center; /* Alinea arriba y centrado horizontal */
+      min-height:100dvh; /* Asegura altura mínima de viewport */
+      padding:24px; /* Espaciado interno alrededor del contenido */
+    } /* Fin body */
+
+    .container{ /* Contenedor principal de la app */
+      width:100%; /* Ocupa todo el ancho disponible */
+      max-width:980px; /* Limita el ancho máximo para buena lectura */
+      background:var(--panel); /* Fondo del contenedor */
+      border-radius:var(--radius); /* Esquinas redondeadas */
+      border:1px solid var(--border); /* Borde sutil */
+      box-shadow:0 10px 30px rgba(0,0,0,.35); /* Sombra para elevación */
+      padding:22px; /* Espaciado interno */
+    } /* Fin container */
+
+    header{ /* Encabezado superior con título y buscador */
+      display:flex; /* Flex para alinear contenido en fila */
+      flex-wrap:wrap; /* Permite que salte de línea en pantallas pequeñas */
+      gap:var(--gap); /* Separación entre elementos */
+      align-items:center; /* Centra verticalmente */
+      justify-content:space-between; /* Separa título y buscador a extremos */
+      margin-bottom:var(--gap); /* Separación con el contenido siguiente */
+    } /* Fin header */
+
+    h1{ /* Título principal */
+      margin:0; /* Quita márgenes extra */
+      font-size:clamp(1.2rem, 2.5vw, 1.8rem); /* Tamaño fluido según ancho */
+    } /* Fin h1 */
+
+    .search{ /* Contenedor del buscador */
+      flex:1 1 320px; /* Crece y encoge, base mínima 320px */
+      display:flex; /* Flex para input y botón */
+      gap:8px; /* Separación entre input y botón */
+    } /* Fin .search */
+
+    .search input{ /* Campo de búsqueda */
+      flex:1; /* Ocupa el espacio restante */
+      padding:12px 14px; /* Relleno interno del input */
+      border-radius:10px; /* Esquinas redondeadas */
+      border:1px solid var(--border); /* Borde sutil */
+      background:#0b1324; /* Fondo oscuro para contraste */
+      color:var(--text); /* Texto claro */
+    } /* Fin .search input */
+
+    .search button{ /* Botón para limpiar búsqueda */
+      padding:12px 14px; /* Relleno interno */
+      border-radius:10px; /* Bordes redondeados */
+      border:1px solid var(--border); /* Borde sutil */
+      background:#1f2937; /* Fondo del botón */
+      color:var(--text); /* Texto claro */
+      cursor:pointer; /* Cursor de mano */
+    } /* Fin .search button */
+
+    .search button:hover{ filter:brightness(1.12); } /* Aclara un poco al pasar el mouse */
+
+    .grid{ /* Rejilla para los botones de tarjetas */
+      display:grid; /* Activa grid layout */
+      gap:var(--gap); /* Separación entre celdas */
+      grid-template-columns:repeat(3, 1fr); /* 3 columnas iguales en desktop */
+    } /* Fin .grid */
+
+    @media (max-width:900px){ .grid{ grid-template-columns:repeat(2, 1fr); } } /* 2 columnas en tablets */
+    @media (max-width:560px){ .grid{ grid-template-columns:1fr; } } /* 1 columna en móviles */
+
+    .card-btn{ /* Estilo del botón que representa cada tarjeta */
+      display:flex; /* Flex para centrar texto */
+      align-items:center; /* Centra verticalmente el texto */
+      justify-content:center; /* Centra horizontalmente el texto */
+      text-align:center; /* Alineación del texto */
+      padding:16px 14px; /* Relleno interno */
+      min-height:74px; /* Altura mínima cómoda para tocar en móvil */
+      border-radius:var(--btn-radius); /* Bordes redondeados */
+      border:1px solid var(--border); /* Borde sutil */
+      background:#0b1324; /* Fondo del botón */
+      color:var(--text); /* Texto claro */
+      font-weight:700; /* Texto más grueso */
+      text-decoration:none; /* Quita subrayado del enlace */
+      transition:transform .1s ease, box-shadow .2s ease, border-color .2s ease; /* Transiciones suaves */
+      box-shadow:0 4px 18px rgba(0,0,0,.25); /* Sombra ligera */
+      word-break:break-word; /* Evita desbordes con nombres largos */
+    } /* Fin .card-btn */
+
+    .card-btn:hover{ /* Efecto al pasar el cursor */
+      transform:translateY(-1px); /* Mueve ligeramente hacia arriba */
+      border-color:var(--accent); /* Usa color de acento en el borde */
+      box-shadow:0 10px 24px rgba(0,0,0,.35); /* Sombra más marcada */
+    } /* Fin hover del botón */
+
+    .empty{ /* Mensaje cuando no hay coincidencias en la búsqueda */
+      color:var(--muted); /* Texto tenue */
+      text-align:center; /* Centrado */
+      padding:20px; /* Espaciado */
+      border:1px dashed var(--border); /* Borde punteado para resaltar */
+      border-radius:var(--radius); /* Esquinas redondeadas */
+      margin-top:var(--gap); /* Separación superior */
+      background:#0b1324; /* Fondo oscuro suave */
+    } /* Fin .empty */
+  </style> <!-- Fin de los estilos -->
+</head> <!-- Fin del head -->
+
+<body> <!-- Inicio del cuerpo del documento -->
+  <main class="container"> <!-- Contenedor principal semántico -->
+    <header> <!-- Cabecera con título y buscador -->
+      <h1>Tarjetas disponibles</h1> <!-- Título visible de la página -->
+      <div class="search"> <!-- Contenedor del buscador -->
+        <input id="q" type="text" placeholder="Buscar por nombre..." autocomplete="off"> <!-- Input de búsqueda -->
+        <button id="clear">Limpiar</button> <!-- Botón para limpiar búsqueda -->
+      </div> <!-- Fin buscador -->
+    </header> <!-- Fin cabecera -->
+
+    <section id="grid" class="grid" aria-live="polite"> <!-- Rejilla que contendrá los botones; aria-live para lectores de pantalla -->
+      <!-- Los botones se inyectarán por JavaScript; mantenemos el HTML vacío -->
+    </section> <!-- Fin de sección de rejilla -->
+
+    <p id="empty" class="empty" hidden> <!-- Párrafo oculto para mostrar cuando no hay resultados -->
+      No hay tarjetas que coincidan con la búsqueda. <!-- Mensaje de no coincidencias -->
+    </p> <!-- Fin del mensaje vacío -->
+  </main> <!-- Fin del contenedor principal -->
+
+  <script> /* Lógica en JavaScript para poblar y filtrar la rejilla de tarjetas */
+    "use strict"; // Activa el modo estricto para prevenir errores silenciosos
+
+    /* ===== 1) CONFIGURACIÓN: LISTA DE TARJETAS ===== */
+    // Arreglo de objetos: cada objeto es una tarjeta con nombre y enlace relativo/absoluto
+    // Ajusta 'href' hacia tu estructura real (ej: ./tarjetas/t1/index.html)
+    const TARJETAS = [ // Comienzo del arreglo de tarjetas
+      { name: "Tarjeta 01 - Recepción",  href: "https://fertilitycare.github.io/tarj-pres/recepcion/" },  // Ejemplo 1
+      { name: "Tarjeta 02 - Subgerente asistencial",href: "https://fertilitycare.github.io/tarj-pres/subasistencial/" },  // Ejemplo 2
+      { name: "Tarjeta 03 - Finanzas Fertility",href: "https://fertilitycare.github.io/tarj-pres/Finanzas/" },  // Ejemplo 3
+      { name: "Tarjeta 04 - Seguimientos de Paciente 1",href: "https://fertilitycare.github.io/tarj-pres/seg1/" },// Ejemplo 4
+      { name: "Tarjeta 05 - Seguimientos de Paciente 2",    href: "https://fertilitycare.github.io/tarj-pres/seg2/" },  // Ejemplo 5
+      { name: "Tarjeta 06 - Seguimientos de Paciente 3",       href: "https://fertilitycare.github.io/tarj-pres/Seg3/" },  // Ejemplo 6
+      { name: "Tarjeta 07 - Seguimientos de Paciente 4",  href: "https://fertilitycare.github.io/tarj-pres/seg4/" },  // Ejemplo 7
+      { name: "Tarjeta 08 - Almacen y farmacia",    href: "https://fertilitycare.github.io/tarj-pres/Almacen&Farmacia/" },  // Ejemplo 8
+
+    ]; // Fin del arreglo de tarjetas
+
+    /* ===== 2) REFERENCIAS AL DOM ===== */
+    const $grid  = document.getElementById("grid");  // Contenedor donde se insertarán los botones
+    const $q     = document.getElementById("q");     // Campo de búsqueda por texto
+    const $clear = document.getElementById("clear"); // Botón para limpiar búsqueda
+    const $empty = document.getElementById("empty"); // Párrafo de "sin resultados"
+
+    /* ===== 3) FUNCIÓN: CREAR UN BOTÓN (ENLACE) DE TARJETA ===== */
+    function crearBotonTarjeta(tarjeta){                          // Recibe un objeto {name, href}
+      const a = document.createElement("a");                      // Crea un elemento de enlace <a>
+      a.className = "card-btn";                                   // Aplica la clase para estilos
+      a.textContent = tarjeta.name;                               // Texto visible del botón = nombre
+      a.href = tarjeta.href;                                      // Destino del enlace = ruta de la tarjeta
+      a.target = "_blank";                                     // (Opcional) abrir en pestaña nueva
+      a.rel = "noopener";                                         // Seguridad/performance si usas _blank
+      return a;                                                   // Devuelve el botón construido
+    } // Fin crearBotonTarjeta
+
+    /* ===== 4) FUNCIÓN: RENDERIZAR LA REJILLA SEGÚN UN LISTADO ===== */
+    function render(lista){                                       // Recibe un arreglo de tarjetas a mostrar
+      $grid.innerHTML = "";                                       // Limpia la rejilla antes de pintar
+      if(!lista.length){                                          // Si la lista está vacía...
+        $empty.hidden = false;                                    // Muestra el mensaje "sin resultados"
+        return;                                                   // Sale sin agregar botones
+      }                                                           // Fin condición lista vacía
+      $empty.hidden = true;                                       // Oculta el mensaje si hay resultados
+      const frag = document.createDocumentFragment();             // Crea un fragmento para inserción eficiente
+      for(const t of lista){                                      // Itera cada tarjeta en la lista
+        frag.appendChild(crearBotonTarjeta(t));                   // Crea y agrega el botón al fragmento
+      }                                                           // Fin del bucle
+      $grid.appendChild(frag);                                    // Inserta todos los botones de una vez
+    } // Fin render
+
+    /* ===== 5) FUNCIÓN: FILTRAR POR BÚSQUEDA ===== */
+    function filtrar(){                                           // Se ejecuta al escribir en el buscador
+      const term = ($q.value || "").toLowerCase().trim();         // Normaliza el término a minúsculas
+      if(!term){                                                  // Si no hay término, mostrar todo
+        render(TARJETAS);                                         // Renderiza lista completa
+        return;                                                   // Sale de la función
+      }                                                           // Fin condición sin término
+      const lista = TARJETAS.filter(t =>                          // Filtra tarjetas cuyo nombre incluya el término
+        t.name.toLowerCase().includes(term)                       // Comprueba inclusión de cadena
+      );                                                          // Fin del filtro
+      render(lista);                                              // Vuelve a renderizar con los resultados filtrados
+    } // Fin filtrar
+
+    /* ===== 6) EVENTOS: INICIALIZACIÓN Y BÚSQUEDA ===== */
+    render(TARJETAS);                                             // Dibuja la rejilla con todas las tarjetas al cargar
+    $q.addEventListener("input", filtrar);                        // Al escribir en el buscador, filtra en vivo
+    $clear.addEventListener("click", ()=>{                        // Al hacer clic en "Limpiar"...
+      $q.value = "";                                              // Borra el contenido del input
+      $q.focus();                                                 // Devuelve el foco al input
+      render(TARJETAS);                                           // Muestra de nuevo toda la lista
+    });                                                           // Fin manejador del botón limpiar
+  </script> <!-- Fin del script principal -->
+</body> <!-- Fin del cuerpo -->
+</html> <!-- Fin del documento -->
