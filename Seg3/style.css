@@ -1,0 +1,102 @@
+:root{ /* 1) Variables de tamaño */
+  --card-width: min(92vw, 440px); /* 2) Ancho flexible */
+  --card-ratio: 1.78;             /* 3) Alto = ancho * 1.78 (vertical) */
+}
+
+*{
+  box-sizing: border-box;                 /* 4) Cajas consistentes */
+  -webkit-tap-highlight-color: transparent; /* 5) Sin flash al tocar */
+}
+
+html,body{
+  height: 100%;                 /* 6) Pantalla completa */
+  margin: 0;                    /* 7) Sin márgenes */
+  background: #fff;             /* 8) Fondo blanco */
+  font-family: system-ui, sans-serif; /* 9) Fuente del sistema */
+}
+
+.viewport{
+  height: 100%;                 /* 10) Ocupa todo */
+  display: grid;                /* 11) Grid */
+  place-items: center;          /* 12) Centrado */
+  perspective: 1200px;          /* 13) Profundidad 3D (si se usa) */
+}
+
+.card{
+  position: relative;                                /* 14) Referencia pos abs */
+  width: var(--card-width);                          /* 15) Ancho */
+  height: calc(var(--card-width) * var(--card-ratio));/* 16) Alto */
+  border-radius: 16px;                               /* 17) Esquinas */
+  overflow: hidden;                                  /* 18) Recorte */
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);           /* 19) Sombra */
+}
+
+.face{
+  position: absolute; inset: 0;                      /* 20) Ocupar todo */
+  width: 100%; height: 100%;                         /* 21) Tamaño completo */
+  object-fit: cover;                                 /* 22) Encaje sin deformar */
+  backface-visibility: hidden;                       /* 23) Oculta dorso */
+  -webkit-backface-visibility: hidden;               /* 24) Safari */
+  -webkit-user-drag: none; user-select: none;        /* 25) No arrastrable/seleccionable */
+  transition: transform 600ms cubic-bezier(.2,.8,.2,1); /* 26) Animación suave */
+}
+
+/* 27) Giro por CARAS (evita espejo en reverso) */
+.front{ transform: rotateY(0deg); }       /* 28) Frente visible */
+.back { transform: rotateY(-180deg); }    /* 29) Reverso volteado internamente */
+.card.flip .front{ transform: rotateY(180deg); } /* 30) Frente se oculta */
+.card.flip .back { transform: rotateY(0deg); }   /* 31) Reverso aparece derecho */
+
+/* 32) ZONA DE GIRO: franja superior transparente */
+.flip-zone{
+  position: absolute;                     /* 33) Posición absoluta dentro de .card */
+  top: 0; left: 0;                         /* 34) Arriba a la izquierda */
+  width: 100%;                             /* 35) Ancho completo */
+  height: 38%;                             /* 36) Solo el 38% superior (ajustable) */
+  background: transparent;                 /* 37) Invisible */
+  z-index: 3;                              /* 38) Encima de hotspots */
+  cursor: pointer;                         /* 39) Indica que se puede tocar/clicar */
+}
+
+/* 40) HOTSPOTS: capa para los links del frente */
+.hotspots{
+  position: absolute; inset: 0;            /* 41) Cubre la tarjeta */
+  z-index: 2;                               /* 42) Encima de las imágenes, debajo de .flip-zone */
+  pointer-events: none;                     /* 43) Bloquea eventos fuera de los <a> */
+}
+
+/* 44) Cada hotspot es un <a> posicionado por porcentaje */
+.hotspot{
+  position: absolute; display: block;       /* 45) Caja clicable */
+  pointer-events: auto;                     /* 46) Reactiva clicks solo en el área */
+  transform: translate(-50%, -50%);         /* 47) Centrado relativo a top/left */
+  /* 48) DEBUG: para ubicar los cuadros, descomenta:
+  outline: 2px dashed rgba(0,0,0,.3);
+  */
+}
+
+/* 49) Ocultar hotspots cuando vemos la cara trasera */
+.card.flip .hotspots{ display: none; }
+
+/* 50) Posicionamiento de cada hotspot (ajusta si tus iconos cambian) */
+.hs-whatsapp{
+  left: 50%;             /* Centrado horizontal para cubrir icono + texto web */
+  top: 67%;              /* Posición vertical de la línea de web */
+  width: 80%;            /* Ancho amplio para cubrir icono + “WWW…” */
+  height: 8%;            /* Altura de la franja del texto web */
+  transform: translate(-50%, -50%); /* Centrar el rectángulo */
+}
+.hs-instagram{
+  left: 50%;             /* Centrado horizontal para cubrir icono + texto web */
+  top: 74%;              /* Posición vertical de la línea de web */
+  width: 80%;            /* Ancho amplio para cubrir icono + “WWW…” */
+  height: 8%;            /* Altura de la franja del texto web */
+  transform: translate(-50%, -50%); /* Centrar el rectángulo */
+}
+.hs-web{
+  left: 50%;             /* Centrado horizontal para cubrir icono + texto web */
+  top: 87%;              /* Posición vertical de la línea de web */
+  width: 80%;            /* Ancho amplio para cubrir icono + “WWW…” */
+  height: 8%;            /* Altura de la franja del texto web */
+  transform: translate(-50%, -50%); /* Centrar el rectángulo */
+}
